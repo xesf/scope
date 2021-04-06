@@ -192,15 +192,29 @@ const loadScene = (index) => {
         index = scenes.length - 1;
     }
     const data = scenes[index];
-    const container = document.getElementById('scene-container');
 
+    const container = document.getElementById('scene-container');
+    
     const boundary = createBoundary(data.boundary);
     const exit = createExit(data.exit);
     const player = createPlayer(data.player);
-
+    
     container.appendChild(boundary.element);
     container.appendChild(exit.element);
     container.appendChild(player.element);
+
+    const cx = (window.innerWidth / 2) - (boundary.width / 2);
+    const cy = (window.innerHeight / 2) - (boundary.height / 2);
+
+    if (data.tutorial) {
+        const tutorial = document.getElementById('scene-tutorial');
+        tutorial.innerHTML = data.tutorial;
+        tutorial.style.width = '100%';
+        tutorial.style.lineHeight = '1.5';
+        tutorial.style.textAlign = 'center';
+        tutorial.style.position = 'absolute';
+        tutorial.style.top = `${cy - 65}px`;
+    }
 
     return {
         ...data,

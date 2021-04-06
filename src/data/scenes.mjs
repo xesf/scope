@@ -1,5 +1,8 @@
-const scenes = [
+import text from './text.mjs';
+
+const scenes = (language) => ([
 	{
+		tutorial: text[language].scene1_tutorial_1,
 		boundary: {
 			x: 0,
 			y: 0,
@@ -20,6 +23,6 @@ const scenes = [
 			height: 140,
 		},
 	},
-];
+]);
 
-export default scenes;
+export default scenes('en');
