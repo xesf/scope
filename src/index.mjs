@@ -15,8 +15,8 @@ const fps = 1000 / 60;
 let action = ACTION_TYPE.NONE;
 let prevTick = Date.now();
 let frameId = null;
-
 let scene = null;
+let lastPress = Date.now();
 
 const onKeyDown = (e) => {
     switch(e.key) {
@@ -118,8 +118,8 @@ const createExit = (data) => {
     element.setAttribute('transform', `translate(${data.x}, ${data.y})`)
     
     const exitElement = document.createElementNS(namespace, 'ellipse');
-    exitElement.setAttribute('rx', '15');
-    exitElement.setAttribute('ry', '15');
+    exitElement.setAttribute('rx', data.width / 2);
+    exitElement.setAttribute('ry', data.height / 2);
     exitElement.setAttribute('fill', '#d5e8d4');
     exitElement.setAttribute('stroke', '#82b366');
     exitElement.setAttribute('stroke-width', '1.2');
@@ -149,8 +149,8 @@ const createPlayer = (data) => {
     
     const createEllipse = () => {
         const elem = document.createElementNS(namespace, 'ellipse');
-        elem.setAttribute('cx', '70');
-        elem.setAttribute('cy', '70');
+        elem.setAttribute('cx', data.width / 2);
+        elem.setAttribute('cy', data.height / 2);
         elem.setAttribute('fill', 'none');
         elem.setAttribute('stroke', '#6c8ebf');
         elem.setAttribute('stroke-width', '1.2');
@@ -222,6 +222,52 @@ const resizeContainer = () => {
 }
 
 const update = (tick, elapsed) => {
+    if (Date.now() > lastPress + 80
+        && action != ACTION_TYPE.NONE
+    ) {
+        lastPress = Date.now();
+        let x = scene.player.x;
+        let y = scene.player.y;
+        let angle = scene.player.angle;
+        
+        if ((action & ACTION_TYPE.SHIFT) == ACTION_TYPE.SHIFT
+            && (action & ACTION_TYPE.LEFT) == ACTION_TYPE.LEFT) {
+            angle -= 5;
+        } else if ((action & ACTION_TYPE.LEFT) == ACTION_TYPE.LEFT) {
+            x -= 5;
+        }
+        if ((action & ACTION_TYPE.SHIFT) == ACTION_TYPE.SHIFT
+            && (action & ACTION_TYPE.RIGHT) == ACTION_TYPE.RIGHT) {
+            angle += 5;
+        } else  if ((action & ACTION_TYPE.RIGHT) == ACTION_TYPE.RIGHT) {
+            x += 5;
+        }
+        if ((action & ACTION_TYPE.UP) == ACTION_TYPE.UP) {
+            y -= 5;
+        }
+        if ((action & ACTION_TYPE.DOWN) == ACTION_TYPE.DOWN) {
+            y += 5;
+        }
+
+        // check boundary
+        if (x < 0) {
+            x = 0;
+        }
+        if (x > scene.boundary.x + scene.boundary.width - scene.player.width) {
+            x = scene.boundary.x + scene.boundary.width - scene.player.width;
+        }
+        if (y < 0) {
+            y = 0;
+        }
+        if (y > scene.boundary.y + scene.boundary.height - scene.player.height) {
+            y = scene.boundary.y + scene.boundary.height - scene.player.height;
+        }
+        
+        scene.player.x = x;
+        scene.player.y = y;
+        scene.player.angle = angle;
+        scene.player.element.setAttribute('transform',`translate(${x}, ${y}), rotate(${angle} 70 70)`);
+    }
 
     return false;
 }
