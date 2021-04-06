@@ -16,6 +16,7 @@ let action = ACTION_TYPE.NONE;
 let prevTick = Date.now();
 let frameId = null;
 let scene = null;
+let sceneIndex = 0;
 let lastPress = Date.now();
 
 const playerOffsetX = 70;
@@ -197,6 +198,7 @@ const loadScene = (index) => {
     const data = scenes[index];
 
     const container = document.getElementById('scene-container');
+    container.innerHTML = '';
     
     const boundary = createBoundary(data.boundary);
     const exit = createExit(data.exit);
@@ -292,6 +294,13 @@ const update = (tick, elapsed) => {
             console.log('DONE');
             scene.complete = true;
         }
+        
+        console.log(`Player pos ${x} ${y} - Exit pos ${scene.exit.x - playerOffsetX} ${scene.exit.y - playerOffsetY}`);
+    }
+
+    if (scene.complete) {
+        sceneIndex += 1;
+        scene = loadScene(sceneIndex);
     }
 
     return false;
@@ -321,7 +330,7 @@ const mainloop = () => {
 const run = () => {
     initialise();
 
-    scene = loadScene(0);
+    scene = loadScene(sceneIndex);
 
     resizeContainer();
 
