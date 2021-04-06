@@ -18,6 +18,9 @@ let frameId = null;
 let scene = null;
 let lastPress = Date.now();
 
+const playerOffsetX = 70;
+const playerOffsetY = 10;
+
 const onKeyDown = (e) => {
     switch(e.key) {
         case 'ArrowUp':
@@ -221,6 +224,7 @@ const loadScene = (index) => {
         boundary,
         exit,
         player,
+        complete: false,
     };
 };
 
@@ -236,7 +240,8 @@ const resizeContainer = () => {
 }
 
 const update = (tick, elapsed) => {
-    if (Date.now() > lastPress + 80
+    if (!scene.complete
+        && Date.now() > lastPress + 80
         && action != ACTION_TYPE.NONE
     ) {
         lastPress = Date.now();
@@ -281,6 +286,12 @@ const update = (tick, elapsed) => {
         scene.player.y = y;
         scene.player.angle = angle;
         scene.player.element.setAttribute('transform',`translate(${x}, ${y}), rotate(${angle} 70 70)`);
+   
+        if (scene.player.x === scene.exit.x - playerOffsetX
+            && scene.player.y === scene.exit.y - playerOffsetY) {
+            console.log('DONE');
+            scene.complete = true;
+        }
     }
 
     return false;
