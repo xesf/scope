@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <link rel="manifest" href="manifest.json" />
+        <!-- <link rel="shortcut icon" href="favicon.ico" /> -->
+        <title>Scope - A logic puzzle game</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                background-color: #fff;
+                margin: 0px;
+                padding: 0px;
+            }
+            .container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+            }
+            /* .background {
+                background-color: #fff;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-top: -240px;
+                margin-left: -320px;
+                width: 640px;
+                height: 480px;
+            } */
+        </style>
+    </head>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        
+        <!-- <div style="position: absolute; border-width: 1px; overflow: hidden; width: 699px; height: 991px; border-color: rgb(255, 255, 255); border-style: solid; background-color: rgb(255, 255, 255); background-image: url(&quot;data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEyIEwgNDggMTIgTSAxMiAwIEwgMTIgNDggTSAwIDI0IEwgNDggMjQgTSAyNCAwIEwgMjQgNDggTSAwIDM2IEwgNDggMzYgTSAzNiAwIEwgMzYgNDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2QwZDBkMCIgb3BhY2l0eT0iMC4yIiBzdHJva2Utd2lkdGg9IjEiLz48cGF0aCBkPSJNIDQ4IDAgTCAwIDAgMCA0OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDBkMGQwIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=&quot;); background-position: -1px -1px;"></div> -->
+        
+        <svg
+            tab-index="0"
+            class="container"
+        >
+            <defs>
+                <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#f1f1f1" strokeWidth="0.5"/>
+                </pattern>
+                <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                    <rect width="50" height="50" fill="url(#smallGrid)"/>
+                    <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#e6e6e6" strokeWidth="1"/>
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+            <g>
+                <g>
+                    <rect x="50" y="50" width="150" height="200" rx="21" ry="21" fill="none" stroke="#cccccc" stroke-width="1" stroke-dasharray="3.6 3.6" pointer-events="all" />
+                </g>
+
+                <g>
+                    <ellipse cx="125" cy="125" rx="12" ry="12" fill="#d5e8d4" stroke="#82b366" stroke-width="1.2" stroke-dasharray="3.6 3.6" pointer-events="all" />
+                </g>
+
+                <g transform="translate(125, 125)">
+                    <ellipse rx="60" ry="60" fill="none" stroke="#6c8ebf" stroke-width="1.2" stroke-dasharray="3.5999999999999996 3.5999999999999996" pointer-events="all" />
+
+                    <ellipse rx="48" ry="48" fill="none" stroke="#6c8ebf" stroke-width="1.2" stroke-dasharray="3.6 3.6" pointer-events="all" />
+
+                    <ellipse cx="0" cy="-55" rx="6" ry="6" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.2" pointer-events="all" />
+                </g>
+            </g>
+        </svg>
+
+        <!-- <script type="module" src="index.mjs"></script> -->
+    </body>
+</html>
