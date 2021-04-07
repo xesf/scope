@@ -1,4 +1,5 @@
 import scenes from './data/scenes.mjs'
+import { getBBox, checkContains } from './utils.mjs'
 
 const ACTION_TYPE = {
     NONE:   0x00,
@@ -18,6 +19,7 @@ let frameId = null;
 let scene = null;
 let sceneIndex = 0;
 let lastPress = Date.now();
+let changeScene = null;
 
 const playerOffsetX = 70;
 const playerOffsetY = 10;
@@ -173,6 +175,7 @@ const createPlayer = (data) => {
     innerCircle.setAttribute('stroke-dasharray', '3.6 3.6');
 
     const blueBall = createEllipse();
+    blueBall.setAttribute('id', 'player-ball');
     blueBall.setAttribute('cy', '10');
     blueBall.setAttribute('rx', '10');
     blueBall.setAttribute('ry', '10');
@@ -288,19 +291,22 @@ const update = (tick, elapsed) => {
         scene.player.y = y;
         scene.player.angle = angle;
         scene.player.element.setAttribute('transform',`translate(${x}, ${y}), rotate(${angle} 70 70)`);
-   
-        if (scene.player.x === scene.exit.x - playerOffsetX
-            && scene.player.y === scene.exit.y - playerOffsetY) {
-            console.log('DONE');
+  
+        const exitBB = getBBox(scene.exit.element)
+        const playerBB = getBBox(scene.player.element.childNodes[2]);
+
+        if (checkContains(exitBB, playerBB)) {
             scene.complete = true;
+            console.log('Solved!!');
         }
-        
-        console.log(`Player pos ${x} ${y} - Exit pos ${scene.exit.x - playerOffsetX} ${scene.exit.y - playerOffsetY}`);
     }
 
-    if (scene.complete) {
-        sceneIndex += 1;
-        scene = loadScene(sceneIndex);
+    if (scene.complete && !changeScene) {
+        changeScene = setTimeout(() => {
+            sceneIndex += 1;
+            scene = loadScene(sceneIndex);
+            clearTimeout(changeScene);
+        }, 1000);
     }
 
     return false;
