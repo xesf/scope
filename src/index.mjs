@@ -1,4 +1,4 @@
-import { getBBox, checkContains } from './utils.mjs';
+import { getBBox, checkContains, checkIntersection } from './utils.mjs';
 import scenes from './data/scenes.mjs';
 
 const ACTION_TYPE = {
@@ -316,18 +316,37 @@ const update = (tick, elapsed) => {
 			y = scene.boundary.y + scene.boundary.height - scene.player.height;
 		}
 
-		scene.player.x = x;
-		scene.player.y = y;
-		scene.player.angle = angle;
-		scene.player.element.setAttribute('transform', `translate(${x}, ${y}), rotate(${angle} 70 70)`);
+        const saveX = scene.player.x;
+        const saveY = scene.player.y;
+        const saveAngle = scene.player.angle;
 
-		const exitBB = getBBox(scene.exit.element);
-		const playerBB = getBBox(scene.player.element.childNodes[2]);
+        scene.player.x = x;
+        scene.player.y = y;
+        scene.player.angle = angle;
+        scene.player.element.setAttribute('transform', `translate(${x}, ${y}), rotate(${angle} 70 70)`);
+
+        const playerBB = getBBox(scene.player.element.childNodes[2]);
+        const exitBB = getBBox(scene.exit.element);
 
 		if (checkContains(exitBB, playerBB)) {
 			scene.complete = true;
 			console.log('Solved!!');
 		}
+
+        let blocked = false;
+        scene.obstacles?.element?.childNodes.forEach((obs) => {
+            const obsBB = getBBox(obs);
+            if (checkIntersection(obsBB, playerBB)) {
+                blocked |= true;
+            }
+        });
+  
+        if (blocked) {
+            scene.player.x = saveX;
+            scene.player.y = saveY;
+            scene.player.angle = saveAngle;
+            scene.player.element.setAttribute('transform', `translate(${saveX}, ${saveY}), rotate(${saveAngle} 70 70)`);
+        }
 	}
 
 	if (scene.complete && !changeScene) {
