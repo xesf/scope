@@ -276,6 +276,11 @@ const resizeContainer = () => {
 
 	const container = document.getElementById('scene-container');
 	container.setAttribute('transform', `translate(${cx}, ${cy})`);
+
+    if (scene.tutorial) {
+		const tutorial = document.getElementById('scene-tutorial');
+		tutorial.style.top = `${cy - 65}px`;
+	}
 };
 
 const update = (tick, elapsed) => {
