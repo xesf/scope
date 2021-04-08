@@ -1,5 +1,6 @@
 import { getBBox, checkContains, checkIntersection } from './utils.mjs';
 import scenes from './data/scenes.mjs';
+import text from './data/text.mjs';
 
 const ACTION_TYPE = {
 	NONE: 0x00,
@@ -18,8 +19,11 @@ let prevTick = Date.now();
 let frameId = null;
 let scene = null;
 let sceneIndex = 0;
+let moves = 0;
 let lastPress = Date.now();
 let changeScene = null;
+
+let language = 'en';
 
 const playerOffsetX = 70;
 const playerOffsetY = 10;
@@ -225,6 +229,7 @@ const loadScene = (index) => {
 	if (index > scenes.length - 1) {
 		index = scenes.length - 1;
 	}
+    sceneIndex = index;
 	const data = scenes[index];
 
 	const container = document.getElementById('scene-container');
@@ -248,7 +253,7 @@ const loadScene = (index) => {
 	const cy = window.innerHeight / 2 - boundary.height / 2;
 
 	if (data.tutorial) {
-		const tutorial = document.getElementById('scene-tutorial');
+		const tutorial = document.getElementById('hud-tutorial');
 		tutorial.innerHTML = data.tutorial;
 		tutorial.style.width = '100%';
 		tutorial.style.lineHeight = '1.5';
@@ -278,7 +283,7 @@ const resizeContainer = () => {
 	container.setAttribute('transform', `translate(${cx}, ${cy})`);
 
     if (scene.tutorial) {
-		const tutorial = document.getElementById('scene-tutorial');
+		const tutorial = document.getElementById('hud-tutorial');
 		tutorial.style.top = `${cy - 65}px`;
 	}
 };
@@ -292,19 +297,22 @@ const update = (tick, elapsed) => {
 
 		if ((action & ACTION_TYPE.SHIFT) == ACTION_TYPE.SHIFT && (action & ACTION_TYPE.LEFT) == ACTION_TYPE.LEFT) {
 			angle -= 5;
+            moves++;
 		} else if ((action & ACTION_TYPE.LEFT) == ACTION_TYPE.LEFT) {
 			x -= 5;
-		}
-		if ((action & ACTION_TYPE.SHIFT) == ACTION_TYPE.SHIFT && (action & ACTION_TYPE.RIGHT) == ACTION_TYPE.RIGHT) {
+            moves++;
+		} else if ((action & ACTION_TYPE.SHIFT) == ACTION_TYPE.SHIFT && (action & ACTION_TYPE.RIGHT) == ACTION_TYPE.RIGHT) {
 			angle += 5;
+            moves++;
 		} else if ((action & ACTION_TYPE.RIGHT) == ACTION_TYPE.RIGHT) {
 			x += 5;
-		}
-		if ((action & ACTION_TYPE.UP) == ACTION_TYPE.UP) {
+            moves++;
+		} else if ((action & ACTION_TYPE.UP) == ACTION_TYPE.UP) {
 			y -= 5;
-		}
-		if ((action & ACTION_TYPE.DOWN) == ACTION_TYPE.DOWN) {
+            moves++;
+		} else if ((action & ACTION_TYPE.DOWN) == ACTION_TYPE.DOWN) {
 			y += 5;
+            moves++;
 		}
 
 		// check boundary
@@ -347,6 +355,7 @@ const update = (tick, elapsed) => {
         });
   
         if (blocked) {
+            moves--;
             scene.player.x = saveX;
             scene.player.y = saveY;
             scene.player.angle = saveAngle;
@@ -361,6 +370,12 @@ const update = (tick, elapsed) => {
 			changeScene = null;
 		}, 500);
 	}
+
+    const hudScenes = document.getElementById('hud-scenes');
+    hudScenes.innerText = `${text[language].scenes} ${sceneIndex + 1}/${scenes.length}`;
+
+    const hudMoves = document.getElementById('hud-moves');
+    hudMoves.innerText = `${text[language].moves} ${moves}`;
 
 	return false;
 };
