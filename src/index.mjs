@@ -18,8 +18,8 @@ let action = ACTION_TYPE.NONE;
 let prevTick = Date.now();
 let frameId = null;
 let scene = null;
-let sceneIndex = 0;
-let moves = 0;
+let sceneIndex = parseInt(window.localStorage.getItem('sceneIndex')) || 0;
+let moves = parseInt(window.localStorage.getItem('moves')) || 0;
 let lastPress = Date.now();
 let changeScene = null;
 
@@ -230,6 +230,7 @@ const loadScene = (index) => {
 		index = scenes.length - 1;
 	}
     sceneIndex = index;
+    window.localStorage.setItem('sceneIndex', sceneIndex);
 	const data = scenes[index];
 
 	const container = document.getElementById('scene-container');
@@ -361,6 +362,7 @@ const update = (tick, elapsed) => {
             scene.player.angle = saveAngle;
             scene.player.element.setAttribute('transform', `translate(${saveX}, ${saveY}), rotate(${saveAngle} 70 70)`);
         }
+        window.localStorage.setItem('moves', moves);
 	}
 
 	if (scene.complete && !changeScene) {
