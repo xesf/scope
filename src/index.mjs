@@ -23,7 +23,8 @@ let moves = parseInt(window.localStorage.getItem('moves')) || 0;
 let lastPress = Date.now();
 let changeScene = null;
 
-let language = 'en';
+let language = window.localStorage.getItem('lang') || navigator.language.slice(0,2) || 'en';
+let languageChanged = false;
 
 const playerOffsetX = 70;
 const playerOffsetY = 10;
@@ -233,6 +234,9 @@ const loadScene = (index) => {
     window.localStorage.setItem('sceneIndex', sceneIndex);
 	const data = scenes[index];
 
+    const hudScenes = document.getElementById('hud-scenes');
+    hudScenes.innerText = `${text[language].scenes} ${sceneIndex + 1}/${scenes.length}`;
+
 	const container = document.getElementById('scene-container');
 	container.innerHTML = '';
 
@@ -255,7 +259,7 @@ const loadScene = (index) => {
 
 	if (data.tutorial) {
 		const tutorial = document.getElementById('hud-tutorial');
-		tutorial.innerHTML = data.tutorial;
+		tutorial.innerHTML = text[language][data.tutorial];
 		tutorial.style.width = '100%';
 		tutorial.style.lineHeight = '1.5';
 		tutorial.style.textAlign = 'center';
@@ -363,6 +367,9 @@ const update = (tick, elapsed) => {
             scene.player.element.setAttribute('transform', `translate(${saveX}, ${saveY}), rotate(${saveAngle} 70 70)`);
         }
         window.localStorage.setItem('moves', moves);
+
+        const hudMoves = document.getElementById('hud-moves');
+        hudMoves.innerText = `${text[language].moves} ${moves}`;
 	}
 
 	if (scene.complete && !changeScene) {
@@ -373,11 +380,27 @@ const update = (tick, elapsed) => {
 		}, 500);
 	}
 
-    const hudScenes = document.getElementById('hud-scenes');
-    hudScenes.innerText = `${text[language].scenes} ${sceneIndex + 1}/${scenes.length}`;
-
     const hudMoves = document.getElementById('hud-moves');
-    hudMoves.innerText = `${text[language].moves} ${moves}`;
+    if (hudMoves.innerText === '') {
+        hudMoves.innerText = `${text[language].moves} ${moves}`;
+    }
+
+    const hudAuthor = document.getElementById('hud-author');
+    if (hudAuthor.innerText === '') {
+        hudAuthor.innerText = `${text[language].created_by} Palanca Studios`;
+    }
+
+    if (languageChanged) {
+        languageChanged = false;
+        const hudScenes = document.getElementById('hud-scenes');
+        hudScenes.innerText = `${text[language].scenes} ${sceneIndex + 1}/${scenes.length}`;
+        hudMoves.innerText = `${text[language].moves} ${moves}`;
+        hudAuthor.innerText = `${text[language].created_by} Palanca Studios`;
+        if (scene.tutorial) {
+            const tutorial = document.getElementById('hud-tutorial');
+            tutorial.innerHTML = text[language][scene.tutorial];
+        }
+    }
 
 	return false;
 };
@@ -404,12 +427,23 @@ const mainloop = () => {
 	}
 };
 
+const setLanguage = (e) => {
+    language = e.srcElement.id;
+    languageChanged = true;
+    window.localStorage.setItem('lang', language);
+};
+
 const run = () => {
 	initialise();
 
 	scene = loadScene(sceneIndex);
 
 	resizeContainer();
+
+    const hudFlags = document.getElementById('hud-flags');
+    hudFlags.childNodes.forEach((n) => {
+        n.addEventListener('click', setLanguage);
+    });
 
 	if (mainloop()) {
 		destroy();

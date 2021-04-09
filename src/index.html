@@ -33,6 +33,41 @@
             #hud-moves {
                 margin: 1em;
             }
+            div img {
+                opacity: 0.75;
+                filter: grayscale(100%);
+                -webkit-filter: grayscale(100%);
+                -moz-filter: grayscale(100%);
+                width: 20px;
+                height: 15px;
+            }
+            div img:hover {
+                opacity: 1;
+                filter: grayscale(0%);
+                -webkit-filter: grayscale(0%);
+                -moz-filter: grayscale(0%);
+                transform: scale(1.1);
+                -webkit-transform: scale(1.1);
+                -moz-transform: scale(1.1);
+                width: 20px;
+                height: 15px;
+                cursor: pointer;
+            }
+            #hud-flags {
+                position: absolute;
+                bottom: 0.5em;
+                left: 0.5em;
+                z-index: 1;
+            }
+            #hud-author {
+                position: absolute;
+                bottom: 1.5em;
+                right: 1em;
+                text-align: right;
+                font-size: 10px;
+                color: rgb(175, 175, 175);
+                width: 100%;
+            }
         </style>
     </head>
     <body>
@@ -66,6 +101,12 @@
             <div id="hud-moves"></div>
         </div>
         <div id="hud-tutorial"></div>
+        
+        <div id="hud-flags">
+            <img id='en' src="https://cdn.staticaly.com/gh/hampusborgos/country-flags/main/png100px/gb.png" title="English" aria-label="English" />
+            <img id='pt' src="https://cdn.staticaly.com/gh/hampusborgos/country-flags/main/png100px/pt.png" title="Português" aria-label="Português" />
+        </div>
+        <div id="hud-author"></div>
 
         <script type="module" src="index.mjs"></script>
     </body>
