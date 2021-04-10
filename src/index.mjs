@@ -478,6 +478,10 @@ const run = () => {
     hudRestart.title = text[language].restart;
     hudRestart.ariaLabel = text[language].restart;
 
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+
 	if (mainloop()) {
 		destroy();
 	}
