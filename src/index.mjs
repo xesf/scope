@@ -327,15 +327,19 @@ const update = (tick, elapsed) => {
 		// check boundary
 		if (x < 0) {
 			x = 0;
+            moves--;
 		}
 		if (x > scene.boundary.x + scene.boundary.width - scene.player.width) {
 			x = scene.boundary.x + scene.boundary.width - scene.player.width;
+            moves--;
 		}
 		if (y < 0) {
 			y = 0;
+            moves--;
 		}
 		if (y > scene.boundary.y + scene.boundary.height - scene.player.height) {
 			y = scene.boundary.y + scene.boundary.height - scene.player.height;
+            moves--;
 		}
 
         const saveX = scene.player.x;
