@@ -13,6 +13,7 @@ const ACTION_TYPE = {
 
 const namespace = 'http://www.w3.org/2000/svg';
 const fps = 1000 / 60;
+const author = 'Palanca Studios';
 
 let action = ACTION_TYPE.NONE;
 let prevTick = Date.now();
@@ -395,7 +396,7 @@ const update = (tick, elapsed) => {
 
     const hudAuthor = document.getElementById('hud-author');
     if (hudAuthor.innerText === '') {
-        hudAuthor.innerText = `${text[language].created_by} Palanca Studios`;
+        hudAuthor.innerText = `${text[language].created_by} ${author}`;
     }
 
     if (languageChanged) {
@@ -403,7 +404,7 @@ const update = (tick, elapsed) => {
         const hudScenes = document.getElementById('hud-scenes');
         hudScenes.innerText = `${text[language].scenes} ${sceneIndex + 1}/${scenes.length}`;
         hudMoves.innerText = `${text[language].moves} ${moves}`;
-        hudAuthor.innerText = `${text[language].created_by} Palanca Studios`;
+        hudAuthor.innerText = `${text[language].created_by} ${author}`;
         if (scene.tutorial) {
             const tutorial = document.getElementById('hud-tutorial');
             tutorial.innerHTML = text[language][scene.tutorial];
