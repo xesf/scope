@@ -7,6 +7,7 @@
         <!-- <link rel="manifest" href="manifest.json" /> -->
         <!-- <link rel="shortcut icon" href="favicon.ico" /> -->
         <title>Scope - A logic puzzle game</title>
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
         <style>
             body {
                 font-family: sans-serif;
@@ -28,10 +29,18 @@
                 position: relative;
             }
             #hud-scenes {
-                margin: 1em;
+                margin: 0.5em;
             }
             #hud-moves {
+                margin: 0.5em;
+            }
+            .hud-restart {
                 margin: 1em;
+                color: gray;
+            }
+            .hud-restart i {
+                cursor: pointer;
+                padding: 0.3em;
             }
             div img {
                 opacity: 0.75;
@@ -97,9 +106,16 @@
             </g>
         </svg>
         <div id="hud">
-            <div id="hud-scenes"></div>
-            <div id="hud-moves"></div>
+            <div>
+                <div id="hud-scenes"></div>
+                <div id="hud-moves"></div>
+            </div>
+            <div class="hud-restart">
+                <i id="hud-redo" class="fas fa-redo-alt"></i>
+                <i id="hud-restart" class="fas fa-sync-alt"></i>
+            </div>
         </div>
+
         <div id="hud-tutorial"></div>
         
         <div id="hud-flags">

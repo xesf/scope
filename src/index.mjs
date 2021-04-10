@@ -22,6 +22,7 @@ let sceneIndex = parseInt(window.localStorage.getItem('sceneIndex')) || 0;
 let moves = parseInt(window.localStorage.getItem('moves')) || 0;
 let lastPress = Date.now();
 let changeScene = null;
+let prevMoves = 0;
 
 let language = window.localStorage.getItem('lang') || navigator.language.slice(0,2) || 'en';
 let languageChanged = false;
@@ -231,11 +232,14 @@ const loadScene = (index) => {
 		index = scenes.length - 1;
 	}
     sceneIndex = index;
+    prevMoves = moves;
     window.localStorage.setItem('sceneIndex', sceneIndex);
 	const data = scenes[index];
 
     const hudScenes = document.getElementById('hud-scenes');
     hudScenes.innerText = `${text[language].scenes} ${sceneIndex + 1}/${scenes.length}`;
+    const hudMoves = document.getElementById('hud-moves');
+    hudMoves.innerText = `${text[language].moves} ${moves}`;
 
 	const container = document.getElementById('scene-container');
 	container.innerHTML = '';
@@ -400,6 +404,12 @@ const update = (tick, elapsed) => {
             const tutorial = document.getElementById('hud-tutorial');
             tutorial.innerHTML = text[language][scene.tutorial];
         }
+        const hudRedo = document.getElementById('hud-redo');
+        hudRedo.title = text[language].redo;
+        hudRedo.ariaLabel = text[language].redo;
+        const hudRestart = document.getElementById('hud-restart');
+        hudRestart.title = text[language].restart;
+        hudRestart.ariaLabel = text[language].restart;
     }
 
 	return false;
@@ -433,6 +443,16 @@ const setLanguage = (e) => {
     window.localStorage.setItem('lang', language);
 };
 
+const redo = (e) => {
+    moves = prevMoves;
+    scene = loadScene(sceneIndex);
+};
+
+const restart = (e) => {
+    moves = 0;
+    scene = loadScene(0);
+}
+
 const run = () => {
 	initialise();
 
@@ -444,6 +464,15 @@ const run = () => {
     hudFlags.childNodes.forEach((n) => {
         n.addEventListener('click', setLanguage);
     });
+
+    const hudRedo = document.getElementById('hud-redo');
+    hudRedo.addEventListener('click', redo);
+    hudRedo.title = text[language].redo;
+    hudRedo.ariaLabel = text[language].redo;
+    const hudRestart = document.getElementById('hud-restart');
+    hudRestart.addEventListener('click', restart);
+    hudRestart.title = text[language].restart;
+    hudRestart.ariaLabel = text[language].restart;
 
 	if (mainloop()) {
 		destroy();
