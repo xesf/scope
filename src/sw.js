@@ -36,7 +36,6 @@ const contentToCache = [
     'assets/ms-icon-310x310.png',
 ];
 
-
 self.addEventListener('install', (e) => {
     e.waitUntil(
         (async () => {

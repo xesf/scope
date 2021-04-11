@@ -74,7 +74,42 @@ const scenes = [
                 height: 24
             }
         ]
-    }
+    },
+    {
+        boundary: {
+            x: 0,
+            y: 0,
+            width: 200,
+            height: 180
+        },
+        exit: {
+            x: 20,
+            y: 85,
+            width: 30,
+            height: 30
+        },
+        player: {
+            x: 50,
+            y: 10,
+            angle: 0,
+            width: 140,
+            height: 140
+        },
+        obstacles: [
+            {
+                x: 30,
+                y: 40,
+                width: 60,
+                height: 25
+            },
+            {
+                x: 140,
+                y: 70,
+                width: 25,
+                height: 50
+            },
+        ]
+    },
 ];
 
 export default scenes;

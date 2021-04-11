@@ -72,7 +72,10 @@ const onKeyUp = (e) => {
 };
 
 const onResize = () => {
-	resizeContainer();
+    if (!scene) {
+        return;
+    }
+	resizeContainer(scene.boundary, scene?.tutorial);
 };
 window.onresize = onResize;
 
@@ -272,6 +275,8 @@ const loadScene = (index) => {
 		tutorial.style.top = `${cy - 65}px`;
 	}
 
+    resizeContainer(boundary, data.tutorial);
+
 	return {
 		...data,
 		boundary,
@@ -282,19 +287,16 @@ const loadScene = (index) => {
 	};
 };
 
-const resizeContainer = () => {
-	if (!scene) {
-		return;
-	}
-	const cx = window.innerWidth / 2 - scene.boundary.width / 2;
-	const cy = window.innerHeight / 2 - scene.boundary.height / 2;
+const resizeContainer = (boundary, tutorial) => {
+	const cx = window.innerWidth / 2 - boundary.width / 2;
+	const cy = window.innerHeight / 2 - boundary.height / 2;
 
 	const container = document.getElementById('scene-container');
 	container.setAttribute('transform', `translate(${cx}, ${cy})`);
 
-    if (scene.tutorial) {
-		const tutorial = document.getElementById('hud-tutorial');
-		tutorial.style.top = `${cy - 65}px`;
+    if (tutorial) {
+		const hudTutorial = document.getElementById('hud-tutorial');
+		hudTutorial.style.top = `${cy - 65}px`;
 	}
 };
 
@@ -357,7 +359,6 @@ const update = (tick, elapsed) => {
 
 		if (checkContains(exitBB, playerBB)) {
 			scene.complete = true;
-			console.log('Solved!!');
 		}
 
         let blocked = false;
@@ -463,8 +464,6 @@ const run = () => {
 
 	scene = loadScene(sceneIndex);
 
-	resizeContainer();
-
     const hudFlags = document.getElementById('hud-flags');
     hudFlags.childNodes.forEach((n) => {
         n.addEventListener('click', setLanguage);
@@ -479,9 +478,9 @@ const run = () => {
     hudRestart.title = text[language].restart;
     hudRestart.ariaLabel = text[language].restart;
 
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js');
-    }
+    // if ('serviceWorker' in navigator) {
+    //     navigator.serviceWorker.register('sw.js');
+    // }
 
 	if (mainloop()) {
 		destroy();
