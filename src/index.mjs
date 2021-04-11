@@ -188,7 +188,7 @@ const createPlayer = (data) => {
 	// </g>
 	const element = document.createElementNS(namespace, 'g');
 	element.setAttribute('id', 'scene-player');
-	element.setAttribute('transform', `translate(${data.x}, ${data.y})`);
+	element.setAttribute('transform', `translate(${data.x}, ${data.y}), rotate(${data.angle} 70 70)`);
 
 	const createEllipse = () => {
 		const elem = document.createElementNS(namespace, 'ellipse');
