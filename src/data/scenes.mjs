@@ -289,7 +289,7 @@ const scenes = [
         },
         exit: {
             x: 20,
-            y: 85,
+            y: 45,
             width: 30,
             height: 30
         },
@@ -317,7 +317,7 @@ const scenes = [
                 x: 40,
                 y: 20,
                 width: 25,
-                height: 80
+                height: 110
             },
         ]
     },

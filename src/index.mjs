@@ -265,8 +265,9 @@ const loadScene = (index) => {
 	const cx = window.innerWidth / 2 - boundary.width / 2;
 	const cy = window.innerHeight / 2 - boundary.height / 2;
 
+    const tutorial = document.getElementById('hud-tutorial');
+    tutorial.innerText = '';
 	if (data.tutorial) {
-		const tutorial = document.getElementById('hud-tutorial');
 		tutorial.innerHTML = text[language][data.tutorial];
 		tutorial.style.width = '100%';
 		tutorial.style.lineHeight = '1.5';
@@ -406,8 +407,9 @@ const update = (tick, elapsed) => {
         hudScenes.innerText = `${text[language].scenes} ${sceneIndex + 1}/${scenes.length}`;
         hudMoves.innerText = `${text[language].moves} ${moves}`;
         hudAuthor.innerText = `${text[language].created_by} ${author}`;
+        const tutorial = document.getElementById('hud-tutorial');
+        tutorial.innerText = '';
         if (scene.tutorial) {
-            const tutorial = document.getElementById('hud-tutorial');
             tutorial.innerHTML = text[language][scene.tutorial];
         }
         const hudRedo = document.getElementById('hud-redo');
