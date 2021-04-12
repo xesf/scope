@@ -149,6 +149,41 @@ const scenes = [
         boundary: {
             x: 0,
             y: 0,
+            width: 170,
+            height: 160
+        },
+        exit: {
+            x: 20,
+            y: 90,
+            width: 30,
+            height: 30
+        },
+        player: {
+            x: 20,
+            y: 10,
+            angle: 0,
+            width: 140,
+            height: 140
+        },
+        obstacles: [
+            {
+                x: 70,
+                y: 40,
+                width: 50,
+                height: 25
+            },
+            {
+                x: 0,
+                y: 20,
+                width: 25,
+                height: 50
+            },
+        ]
+    },
+    {
+        boundary: {
+            x: 0,
+            y: 0,
             width: 200,
             height: 180
         },
@@ -183,6 +218,65 @@ const scenes = [
                 y: 20,
                 width: 25,
                 height: 35
+            },
+        ]
+    },
+    {
+        boundary: {
+            x: 0,
+            y: 0,
+            width: 150,
+            height: 300
+        },
+        exit: {
+            x: 110,
+            y: 260,
+            width: 30,
+            height: 30
+        },
+        player: {
+            x: 10,
+            y: 5,
+            angle: 140,
+            width: 140,
+            height: 140
+        },
+        obstacles: [
+            {
+                x: 80,
+                y: 80,
+                width: 60,
+                height: 24
+            },
+            {
+                x: 70,
+                y: 160,
+                width: 40,
+                height: 24
+            },
+            {
+                x: 110,
+                y: 160,
+                width: 25,
+                height: 80
+            },
+            {
+                x: 45,
+                y: 130,
+                width: 25,
+                height: 40
+            },
+            {
+                x: -10,
+                y: 240,
+                width: 20,
+                height: 24
+            },
+            {
+                x: 60,
+                y: 240,
+                width: 30,
+                height: 24
             },
         ]
     },
